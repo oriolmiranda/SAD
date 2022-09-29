@@ -42,7 +42,7 @@ public class ExampleBufferedReader extends BufferedReader {
            System.out.println(c);
        }
        
-       System.out.print("Hola");
+       System.out.print("Hola jeje");
        
        
        ExampleBufferedReader.unsetRaw();
