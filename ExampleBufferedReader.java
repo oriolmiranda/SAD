@@ -1,8 +1,18 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.*;
+
 
 public class ExampleBufferedReader extends BufferedReader {
+    
+    //Constants
+    private static final int RIGHT = 'C';
+    private static final int LEFT = 'D';
+    private static final int HOME = 'H';
+    private static final int END = 'F';
+    private static final int DEL = '3';
+    private static final int INS = '2';
 
     InputStreamReader inputStreamReader;
     
@@ -15,7 +25,7 @@ public class ExampleBufferedReader extends BufferedReader {
      
     public static void setRaw() { // put terminal in raw mode
         try {
-            Runtime.getRuntime().exec(new String[] { "/bin/sh", "-c", "stty raw -echo </dev/tty" });
+            Runtime.getRuntime().exec(new String[] { "/bin/sh", "-c", "stty -echo raw </dev/tty" });
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -28,6 +38,39 @@ public class ExampleBufferedReader extends BufferedReader {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public int read() throws IOException{
+        int key;
+         if((key = super.read()) == 27) {     // filtra les tecles que volem que començen amb ESC (27)         
+            super.read();                   // elimina el [
+            switch(super.read()) {
+                case RIGHT: return -RIGHT;
+                case LEFT:  return -LEFT;
+                case DEL:   return -DEL;
+                case HOME:  return -HOME;
+                case END: super.read();     //elimina el ~
+                            return -END;
+                case INS: super.read();
+                            return -INS;                
+            }
+         }
+         return key;
+    }
+/*
+    @Override
+    public String readLine() throws IOException{
+        setRaw();
+        Line line = new Line();
+        int key = 0 ;
+        while (key != '\r'){
+            key = read();
+            //switch si cal
+        }
+
+        return null;
+    }    
+    */    
     
     public static void main(String[] args){
         
@@ -35,20 +78,25 @@ public class ExampleBufferedReader extends BufferedReader {
        
        try{
        
+
+       System.out.print("\033[@");
+
+
        ExampleBufferedReader.setRaw();
-       int i = 0;
        int c;
+       String str;
+
+       
        while((c = bufRead.read()) != '\r'){
-           System.out.println(c);
+            System.out.print((char) c + ": " + c + "     ");
        }
-       
-       System.out.print("Hola hola");
-       
+    
+        //str = bufRead.readLine();
+        //System.out.println(str);
        
        ExampleBufferedReader.unsetRaw();
        } catch (IOException ioe){
            ioe.printStackTrace();
-       }
-       
+       }    
     }    
 }
