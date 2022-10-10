@@ -28,25 +28,31 @@ public class Line {
   public void end(){
 
   }
+
   public void right(){
-
+    if (position < line.size()) position ++;
   }
+
   public void left(){
-
+    if (position > 0) position--;
   }
+
   public void insert(){
-
+    insert = !insert;
   }
+
   public void delete(){
 
   }
+
   public void backSpace(){
 
   }
 
   @Override
   public String toString(){
-
-  return null;
+    String str = "";
+    for (char s : line) str += s;
+    return str;
   }
 }
