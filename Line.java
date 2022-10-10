@@ -19,22 +19,37 @@ public class Line {
     else {
       line.add(position, character);
     }
-    position++;
+    position++;       
+    
+                  //falta mostrar canvi
+
+
+
   }
 
-  public void home(){
-
+  public void home(){        
+    while (position > 0) {
+      this.left();
+    }
   }
   public void end(){
-
+    while (position < line.size()) {
+      this.right();
+    }
   }
 
   public void right(){
-    if (position < line.size()) position ++;
+    if (position < line.size()){
+      position ++;
+      //moure cursor pantalla
+    } 
   }
 
   public void left(){
-    if (position > 0) position--;
+    if (position > 0){
+      position--;
+      //moure cursor pantalla
+    } 
   }
 
   public void insert(){
