@@ -13,16 +13,15 @@ public class Line {
   }
 
   public void addCharacter(char character){
-    if(!insert || position >= line.size() - 1) {
-      line.add(position, character);
-    }
-    else {
+    if(insert & position < line.size()) {
       line.set(position, character);
     }
+    else {
+      line.add(position, character);
+    }
     position++;
-
-
   }
+
   public void home(){
 
   }
