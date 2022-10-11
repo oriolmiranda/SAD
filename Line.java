@@ -36,7 +36,7 @@ public class Line {
 
   public void end(){
     if(this.position < line.size()){
-      System.out.print("\033[" + line.size() - this.position + "C");
+      System.out.print("\033[" + (line.size() - this.position) + "C");
       position = line.size();
     }
   }
@@ -62,7 +62,7 @@ public class Line {
   public void delete(){
     if(this.position < line.size())
     {
-      line.delete(this.position);
+      line.remove(this.position);
       System.out.print("\033[P");
     }
   }
@@ -72,7 +72,7 @@ public class Line {
     {
       this.position--;      
       System.out.print("\033[D");
-      line.delete(this.position);
+      line.remove(this.position);
       System.out.print("\033[P");
     }    
   }
