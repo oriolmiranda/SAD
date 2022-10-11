@@ -14,7 +14,7 @@ public class ExampleBufferedReader extends BufferedReader {
     private static final int DEL = '3';
     private static final int INS = '2';
 
-    private static final int INS = 127;
+    private static final int BKSP = 127;
 
     InputStreamReader inputStreamReader;
     
@@ -65,7 +65,7 @@ public class ExampleBufferedReader extends BufferedReader {
         setRaw();
         Line line = new Line();
         int key;
-        while (key = this.read() != '\r'){
+        while ((key = this.read()) != '\r'){
             switch(key)
             {
                 case -RIGHT: line.right();
