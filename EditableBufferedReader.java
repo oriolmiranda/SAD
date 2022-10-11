@@ -43,14 +43,17 @@ public class EditableBufferedReader extends BufferedReader {
     @Override
     public int read() throws IOException{
         int key;
-         if((key = super.read()) == 27 && super.read() == '[') {     // filtra les tecles que volem que començen amb ESC (27)         
-            switch(key = super.read()) {
-                case END:    
-                case INS: super.read(); //elimina el ~
-                case RIGHT: 
-                case LEFT:  
-                case DEL:   
-                case HOME: return -key;       
+         if((key = super.read()) == 27) {     // filtra les tecles que volem que començen amb ESC (27)         
+            super.read();                   // elimina el [
+            switch(super.read()) {
+                case RIGHT: return -RIGHT;
+                case LEFT:  return -LEFT;
+                case DEL:   return -DEL;
+                case HOME:  return -HOME;
+                case END: super.read();     //elimina el ~
+                            return -END;
+                case INS: super.read();
+                            return -INS;                
             }
          }
          return key;
