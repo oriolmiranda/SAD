@@ -82,7 +82,7 @@ public class EditableBufferedReader extends BufferedReader {
                 break;
                 case BKSP: line.backSpace();
                 break;
-                default: line.addCharacter((char)key)
+                default: line.addCharacter((char)key);
             }
         }
         unsetRaw();
