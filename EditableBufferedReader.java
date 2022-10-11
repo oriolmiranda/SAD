@@ -15,6 +15,7 @@ public class EditableBufferedReader extends BufferedReader {
 
     private static final int BKSP = 127;
 
+    
     InputStreamReader inputStreamReader;
     
     public EditableBufferedReader(InputStreamReader inputStreamReader) {
