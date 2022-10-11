@@ -1,13 +1,13 @@
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class Line {
   
   boolean insert;
-  Vector<Character> line;
+  ArrayList<Character> line;
   int position;
 
   public Line (){
-    this.line = new Vector<>();
+    this.line = new ArrayList<>();
     this.insert = false;
     this.position = 0;
   }
