@@ -61,30 +61,34 @@ public class EditableBufferedReader extends BufferedReader {
 
     @Override
     public String readLine() throws IOException{
-        setRaw();
-        Line line = new Line();
-        int key;
-        while ((key = this.read()) != '\r'){
-            switch(key)
-            {
-                case -RIGHT: line.right();
-                break;
-                case -LEFT: line.left();
-                break;
-                case -HOME: line.home();
-                break;
-                case -END: line.end();
-                break;
-                case -INS: line.insert();
-                break;
-                case -DEL: line.delete();
-                break;
-                case BKSP: line.backSpace();
-                break;
-                default: line.addCharacter((char)key);
+        try{
+            setRaw();
+            Line line = new Line();
+            int key;
+            while ((key = this.read()) != '\r'){
+                switch(key)
+                {
+                    case -RIGHT: line.right();
+                    break;
+                    case -LEFT: line.left();
+                    break;
+                    case -HOME: line.home();
+                    break;
+                    case -END: line.end();
+                    break;
+                    case -INS: line.insert();
+                    break;
+                    case -DEL: line.delete();
+                    break;
+                    case BKSP: line.backSpace();
+                    break;
+                    default: line.addCharacter((char)key);
+                }
             }
+            unsetRaw();
+            return line.toString();
+        } catch (IOException e){
+            throw e;
         }
-        unsetRaw();
-        return line.toString();
     }
 }    
