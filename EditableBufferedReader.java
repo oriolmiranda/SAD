@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.io.*;
 
 
-public class ExampleBufferedReader extends BufferedReader {
+public class EditableBufferedReader extends BufferedReader {
     
     //Constants
     private static final int RIGHT = 'C';
@@ -18,7 +18,7 @@ public class ExampleBufferedReader extends BufferedReader {
 
     InputStreamReader inputStreamReader;
     
-    public ExampleBufferedReader(InputStreamReader inputStreamReader) {
+    public EditableBufferedReader(InputStreamReader inputStreamReader) {
 
         super(inputStreamReader);
         this.inputStreamReader = inputStreamReader;
