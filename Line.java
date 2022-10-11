@@ -13,61 +13,75 @@ public class Line {
   }
 
   public void addCharacter(char character){
-    if(insert & position < line.size()) {
-      line.set(position, character);
+    if (!this.insert || this.position >= line.size() - 1) {
+      line.set(this.position, character);
     }
     else {
-      line.add(position, character);
+      line.add(this.position, character);
     }
     position++;       
-    
-                  //falta mostrar canvi
-
-
-
-  }
-
-  public void home(){        
-    while (position > 0) {
-      this.left();
+    if (!this.insert) {
+      System.out.print("\033[@");
     }
+    System.out.print(character);
   }
+
+
+  public void home(){
+    if(this.position > 0){
+      System.out.print("\033[" + this.position + "D");
+      this.position = 0;
+    }      
+  }
+
   public void end(){
-    while (position < line.size()) {
-      this.right();
+    if(this.position < line.size()){
+      System.out.print("\033[" + line.size() - this.position + "C");
+      position = line.size();
     }
   }
 
   public void right(){
-    if (position < line.size()){
-      position ++;
-      //moure cursor pantalla
+    if (this.position < line.size()){
+      this.position++;
+      System.out.print("\033[C");
     } 
   }
 
   public void left(){
-    if (position > 0){
-      position--;
-      //moure cursor pantalla
+    if (this.position > 0){
+      this.position--;
+      System.out.print("\033[D");
     } 
   }
 
   public void insert(){
-    insert = !insert;
+    this.insert = !this.insert;
   }
 
   public void delete(){
-
+    if(this.position < line.size())
+    {
+      line.delete(this.position);
+      System.out.print("\033[P");
+    }
   }
 
   public void backSpace(){
-
+    if(this.position > 0)
+    {
+      this.position--;      
+      System.out.print("\033[D");
+      line.delete(this.position);
+      System.out.print("\033[P");
+    }    
   }
 
   @Override
   public String toString(){
     String str = "";
-    for (char s : line) str += s;
+    for (char s : line) 
+      str += s;
     return str;
   }
 }
