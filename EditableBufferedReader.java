@@ -88,5 +88,3 @@ public class EditableBufferedReader extends BufferedReader {
         unsetRaw();
         return line.toString();
     }    
-      
-    
