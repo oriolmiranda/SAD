@@ -72,7 +72,7 @@ public class Line {
     {
       this.position--;      
       System.out.print("\033[D");
-      line.remove(this.position);
+      line.remove(this.position);         
       System.out.print("\033[P");
     }    
   }
