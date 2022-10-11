@@ -85,10 +85,11 @@ public class EditableBufferedReader extends BufferedReader {
                     default: line.addCharacter((char)key);
                 }
             }
-            unsetRaw();
             return line.toString();
         } catch (IOException e){
             throw e;
+        } finally {
+            unsetRaw();
         }
     }
 }    
