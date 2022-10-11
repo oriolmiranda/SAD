@@ -1,20 +1,24 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.*;
 
-public class EditableBufferedReader extends BufferedReader {
 
+public class ExampleBufferedReader extends BufferedReader {
+    
     //Constants
-    private static final int RIGHT = 67;
-    private static final int LEFT = 68;
-    private static final int HOME = 72;
-    private static final int END = 70;
-    private static final int DEL = 51;
-    private static final int INS = 50;
+    private static final int RIGHT = 'C';
+    private static final int LEFT = 'D';
+    private static final int HOME = 'H';
+    private static final int END = 'F';
+    private static final int DEL = '3';
+    private static final int INS = '2';
+
+    private static final int BKSP = 127;
 
     InputStreamReader inputStreamReader;
     
-    public EditableBufferedReader(InputStreamReader inputStreamReader) {
+    public ExampleBufferedReader(InputStreamReader inputStreamReader) {
 
         super(inputStreamReader);
         this.inputStreamReader = inputStreamReader;
@@ -23,7 +27,7 @@ public class EditableBufferedReader extends BufferedReader {
      
     public static void setRaw() { // put terminal in raw mode
         try {
-            Runtime.getRuntime().exec(new String[] { "/bin/sh", "-c", "stty raw -echo </dev/tty" });
+            Runtime.getRuntime().exec(new String[] { "/bin/sh", "-c", "stty -echo raw </dev/tty" });
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -54,5 +58,35 @@ public class EditableBufferedReader extends BufferedReader {
             }
          }
          return key;
-    }   
-}
+    }
+
+    @Override
+    public String readLine() throws IOException{
+        setRaw();
+        Line line = new Line();
+        int key;
+        while ((key = this.read()) != '\r'){
+            switch(key)
+            {
+                case -RIGHT: line.right();
+                break;
+                case -LEFT: line.left();
+                break;
+                case -HOME: line.home();
+                break;
+                case -END: line.end();
+                break;
+                case -INS: line.insert();
+                break;
+                case -DEL: line.delete();
+                break;
+                case BKSP: line.backSpace();
+                break;
+                default: line.addCharacter((char)key)
+            }
+        }
+        unsetRaw();
+        return line.toString();
+    }    
+      
+    
