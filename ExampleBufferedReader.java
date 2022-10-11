@@ -14,6 +14,8 @@ public class ExampleBufferedReader extends BufferedReader {
     private static final int DEL = '3';
     private static final int INS = '2';
 
+    private static final int INS = 127;
+
     InputStreamReader inputStreamReader;
     
     public ExampleBufferedReader(InputStreamReader inputStreamReader) {
@@ -57,20 +59,36 @@ public class ExampleBufferedReader extends BufferedReader {
          }
          return key;
     }
-/*
+
     @Override
     public String readLine() throws IOException{
         setRaw();
         Line line = new Line();
-        int key = 0 ;
-        while (key != '\r'){
-            key = read();
-            //switch si cal
+        int key;
+        while (key = this.read() != '\r'){
+            switch(key)
+            {
+                case -RIGHT: line.right();
+                break;
+                case -LEFT: line.left();
+                break;
+                case -HOME: line.home();
+                break;
+                case -END: line.end();
+                break;
+                case -INS: line.insert();
+                break;
+                case -DEL: line.delete();
+                break;
+                case BKSP: line.backSpace();
+                break;
+                default: line.addCharacter((char)key)
+            }
         }
-
-        return null;
+        unsetRaw();
+        return line.toString();
     }    
-    */    
+      
     
     public static void main(String[] args){
         
