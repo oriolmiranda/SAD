@@ -45,11 +45,11 @@ public class ExampleBufferedReader extends BufferedReader {
         int key;
          if((key = super.read()) == 27 && super.read() == '[') {     // filtra les tecles que volem que començen amb ESC (27)         
             switch(key = super.read()) {
-                case END:    
+                case DEL:    
                 case INS: super.read(); //elimina el ~
                 case RIGHT: 
                 case LEFT:  
-                case DEL:   
+                case END:   
                 case HOME: return -key;       
             }
          }
