@@ -14,10 +14,10 @@ public class Line {
 
   public void addCharacter(char character){
     if (!this.insert || this.position >= line.size() - 1) {
-      line.set(this.position, character);
+      line.add(this.position, character);
     }
     else {
-      line.add(this.position, character);
+      line.set(this.position, character);
     }
     position++;       
     if (!this.insert) {

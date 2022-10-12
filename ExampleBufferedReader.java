@@ -43,17 +43,14 @@ public class ExampleBufferedReader extends BufferedReader {
     @Override
     public int read() throws IOException{
         int key;
-         if((key = super.read()) == 27) {     // filtra les tecles que volem que començen amb ESC (27)         
-            super.read();                   // elimina el [
-            switch(super.read()) {
-                case RIGHT: return -RIGHT;
-                case LEFT:  return -LEFT;
-                case DEL:   return -DEL;
-                case HOME:  return -HOME;
-                case END: super.read();     //elimina el ~
-                            return -END;
-                case INS: super.read();
-                            return -INS;                
+         if((key = super.read()) == 27 && super.read() == '[') {     // filtra les tecles que volem que començen amb ESC (27)         
+            switch(key = super.read()) {
+                case END:    
+                case INS: super.read(); //elimina el ~
+                case RIGHT: 
+                case LEFT:  
+                case DEL:   
+                case HOME: return -key;       
             }
          }
          return key;
@@ -61,55 +58,50 @@ public class ExampleBufferedReader extends BufferedReader {
 
     @Override
     public String readLine() throws IOException{
-        setRaw();
-        Line line = new Line();
-        int key;
-        while ((key = this.read()) != '\r'){
-            switch(key)
-            {
-                case -RIGHT: line.right();
-                break;
-                case -LEFT: line.left();
-                break;
-                case -HOME: line.home();
-                break;
-                case -END: line.end();
-                break;
-                case -INS: line.insert();
-                break;
-                case -DEL: line.delete();
-                break;
-                case BKSP: line.backSpace();
-                break;
-                default: line.addCharacter((char)key);
+        try{
+            setRaw();
+            Line line = new Line();
+            int key;
+            while ((key = this.read()) != '\r'){
+                switch(key)
+                {
+                    case -RIGHT: line.right();
+                    break;
+                    case -LEFT: line.left();
+                    break;
+                    case -HOME: line.home();
+                    break;
+                    case -END: line.end();
+                    break;
+                    case -INS: line.insert();
+                    break;
+                    case -DEL: line.delete();
+                    break;
+                    case BKSP: line.backSpace();
+                    break;
+                    default: line.addCharacter((char)key);
+                }
             }
+            return line.toString();
+        } catch (IOException e){
+            throw e;
+        } finally {
+            unsetRaw();
         }
-        unsetRaw();
-        return line.toString();
-    }    
+    }
       
     
     public static void main(String[] args){
         
        BufferedReader bufRead = new ExampleBufferedReader(new InputStreamReader(System.in));
        
-       try{
-       
+       try{      
 
        System.out.print("\033[@");
 
+       
+       System.out.print(bufRead.readLine());
 
-       ExampleBufferedReader.setRaw();
-       int c;
-       
-       while((c = bufRead.read()) != '\r'){
-            System.out.print((char) c + ": " + c + "     ");
-       }
-    
-        //str = bufRead.readLine();
-        //System.out.println(str);
-       
-       ExampleBufferedReader.unsetRaw();
        } catch (IOException ioe){
            ioe.printStackTrace();
        }    
