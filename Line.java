@@ -60,13 +60,10 @@ public class Line {
   }
 
   public void delete(){
-    if(this.position < line.size()-1)
+    if(this.position < line.size())
     {
-      //line.remove(this.position);
-      //System.out.print("\033[P");
-      right();
-      backSpace();
-
+      line.remove(this.position);
+      System.out.print("\033[P");
     }
   }
 
