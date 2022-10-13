@@ -37,7 +37,7 @@ public class Line {
   public void end(){
     if(this.position < line.size()){
       System.out.print("\033[" + (line.size() - this.position) + "C");
-      position = line.size()-1;
+      position = line.size();
     }
   }
 

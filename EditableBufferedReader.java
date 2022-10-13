@@ -47,9 +47,7 @@ public class EditableBufferedReader extends BufferedReader {
          if((key = super.read()) == 27 && super.read() == '[') {     // filtra les tecles que volem que començen amb ESC (27)         
             switch(key = super.read()) {
                 case END:    
-                case INS: 
-                    super.read();
-                    return -key; //elimina el ~
+                case INS: super.read(); //elimina el ~
                 case RIGHT: 
                 case LEFT:  
                 case DEL:   
