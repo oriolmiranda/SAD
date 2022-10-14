@@ -7,72 +7,69 @@ public class Line {
   int position;
 
   public Line (){
-    this.line = new ArrayList<>();
-    this.insert = false;
-    this.position = 0;
+    line = new ArrayList<>();
+    insert = false;
+    position = 0;
   }
 
   public void addCharacter(char character){
-    if (!this.insert || this.position >= line.size() - 1) {
-      line.add(this.position, character);
-    }
-    else {
-      line.set(this.position, character);
-    }
-    position++;       
-    if (!this.insert) {
+    if (!insert || position >= line.size()) {
+      line.add(position, character);      
       System.out.print("\033[@");
     }
-    System.out.print(character);
+    else {
+      line.set(position, character);
+    }
+    System.out.print(character);    
+    position++;
   }
 
-
   public void home(){
-    if(this.position > 0){
-      System.out.print("\033[" + this.position + "D");
-      this.position = 0;
+    if(position > 0){
+      System.out.print("\033[" + position + "D");
+      position = 0;
     }      
   }
 
   public void end(){
-    if(this.position < line.size()){
-      System.out.print("\033[" + (line.size() - this.position) + "C");
-      position = line.size()-1;
+    if(position < line.size()){
+      System.out.print("\033[" + (line.size() - position) + "C");
+      position = line.size();
     }
   }
 
   public void right(){
-    if (this.position < line.size()){
-      this.position++;
+    if (position < line.size()){
+      position++;
       System.out.print("\033[C");
     } 
   }
 
   public void left(){
-    if (this.position > 0){
-      this.position--;
+    if (position > 0){
+      position--;
       System.out.print("\033[D");
     } 
   }
 
-  public void insert(){
-    this.insert = !this.insert;
+  public void insert(){    
+    insert = !insert;
   }
 
   public void delete(){
-    if(this.position < line.size())
+    if(position < line.size())
     {
-      line.remove(this.position);
+      line.remove(position);
       System.out.print("\033[P");
     }
   }
 
   public void backSpace(){
-    if(this.position > 0)
+    if(position > 0)
     {
-      this.position--;      
-      System.out.print("\033[D");
-      line.remove(this.position);         
+      position--;      
+      line.remove(position); 
+      System.out.print("\033[D");              
       System.out.print("\033[P");
     }    
   }

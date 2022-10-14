@@ -42,18 +42,25 @@ public class ExampleBufferedReader extends BufferedReader {
 
     @Override
     public int read() throws IOException{
-        int key;
-         if((key = super.read()) == 27 && super.read() == '[') {     // filtra les tecles que volem que començen amb ESC (27)         
-            switch(key = super.read()) {
-                case DEL:    
-                case INS: super.read(); //elimina el ~
-                case RIGHT: 
-                case LEFT:  
-                case END:   
-                case HOME: return -key;       
+        String str = "";
+        try{
+            while(!this.ready()){}
+            while(this.ready())
+            {
+                str += (char)super.read();
             }
-         }
-         return key;
+            switch(str) {
+                case "\033[2~":
+                case "\033[3~": 
+                case "\033[C": 
+                case "\033[D":  
+                case "\033[F":   
+                case "\033[H":  return -str.charAt(2);
+                default:        return  str.charAt(str.length() - 1);
+            }
+        }catch (IOException e){
+            throw e;
+        }
     }
 
     @Override
@@ -93,17 +100,13 @@ public class ExampleBufferedReader extends BufferedReader {
     
     public static void main(String[] args){
         
-       BufferedReader bufRead = new ExampleBufferedReader(new InputStreamReader(System.in));
-       
-       try{      
+        BufferedReader bufRead = new ExampleBufferedReader(new InputStreamReader(System.in));
+        
 
-       System.out.print("\033[@");
-
-       
-       System.out.print(bufRead.readLine());
-
-       } catch (IOException ioe){
-           ioe.printStackTrace();
-       }    
+        try {         
+            System.out.print(bufRead.readLine());
+        } catch (IOException ioe){
+            ioe.printStackTrace();
+        }    
     }    
 }
