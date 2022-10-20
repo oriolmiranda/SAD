@@ -42,7 +42,7 @@ public class EditableBufferedReader extends BufferedReader {
     @Override
     public int read() throws IOException{
         String str = "";
-        while(!this.ready()){ }
+        //while(!this.ready()){ }
         while(this.ready()) {
             str += (char)super.read();
         }
