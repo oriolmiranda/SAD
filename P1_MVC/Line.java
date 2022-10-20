@@ -65,6 +65,7 @@ public class Line extends Observable {
     if(position < line.size())
     {
       line.remove(position);
+      position--;
       this.setChanged();
       this.notifyObservers("\033[P");
     }
