@@ -3,47 +3,39 @@ import java.util.Observable;
 
 public class Line extends Observable {
   
+  int position;
   boolean insert;
   ArrayList<Character> line;
-  int position;
-  Console view;
+  Console console;
 
   public Line (){
     line = new ArrayList<>();
     insert = false;
     position = 0;
-    view = new Console();
-    this.addObserver(view);
+    console = new Console();
+    this.addObserver(console);
   }
 
   public void addCharacter(char character){
     if (!insert || position >= line.size()) {
       line.add(position, character);      
-      System.out.print("\033[@"); //no se si cal
+      System.out.print("\033[@");
     }
     else {
       line.set(position, character);
     }
     position++;
     this.setChanged();
-    this.notifyObservers(character);    //System.out.print(character);    
+    this.notifyObservers(character);     
   }
 
   public void home(){
-    /*if(position > 0){
-      System.out.print("\033[" + position + "D");
-      position = 0;
-    }*/
     while(position>0){
       this.left();
     }     
   }
 
   public void end(){
-    /*if(position < line.size()){
-      System.out.print("\033[" + (line.size() - position) + "C");
-      position = line.size();
-    }*/
     while(position<line.size()){
       this.right();
     }
@@ -53,7 +45,7 @@ public class Line extends Observable {
     if (position < line.size()){
       position++;
       this.setChanged();
-      this.notifyObservers("\033[C");   //System.out.print("\033[C");
+      this.notifyObservers("\033[C");
     } 
   }
 
@@ -61,7 +53,7 @@ public class Line extends Observable {
     if (position > 0){
       position--;
       this.setChanged();
-      this.notifyObservers("\033[D");   //System.out.print("\033[D");
+      this.notifyObservers("\033[D");
     } 
   }
 
@@ -74,7 +66,7 @@ public class Line extends Observable {
     {
       line.remove(position);
       this.setChanged();
-      this.notifyObservers("\033[P");     //System.out.print("\033[P");
+      this.notifyObservers("\033[P");
     }
   }
 
@@ -82,9 +74,7 @@ public class Line extends Observable {
     if(position > 0)
     {
       position--;      
-      line.remove(position); 
-      /*System.out.print("\033[D");              
-      System.out.print("\033[P");*/
+      line.remove(position);
       this.left();
       this.delete();
     }    

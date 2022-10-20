@@ -1,4 +1,3 @@
-//import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -6,10 +5,6 @@ public class Console implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        //int position = 0;
-        //int columna = ((Line) o).getColumna();
-        //ArrayList<Character> line = ((Line) o).getLine();
-
         switch(arg.toString()){
             case "\033[D":                          //Left
                 System.out.print("\033[D");

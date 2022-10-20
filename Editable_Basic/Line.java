@@ -76,9 +76,9 @@ public class Line {
 
   @Override
   public String toString(){
-    String str = "";
+    StringBuilder str = new StringBuilder();
     for (char s : line) 
-      str += s;
-    return str;
+      str = str.append(s);
+    return str.toString();
   }
 }
