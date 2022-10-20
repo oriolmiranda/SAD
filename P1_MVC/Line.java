@@ -71,7 +71,7 @@ public class Line extends Observable {
 
   public void backSpace(){
     if(position > 0) {
-      position--;      
+      //position--;      
       line.remove(position);
       this.left();
       this.delete();
