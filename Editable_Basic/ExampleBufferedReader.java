@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class EditableBufferedReader extends BufferedReader {
+public class ExampleBufferedReader extends BufferedReader {
     
     //Constants
     private static final int RIGHT = 'C';
@@ -15,10 +15,9 @@ public class EditableBufferedReader extends BufferedReader {
 
     private static final int BKSP = 127;
 
-    
     InputStreamReader inputStreamReader;
     
-    public EditableBufferedReader(InputStreamReader inputStreamReader) {
+    public ExampleBufferedReader(InputStreamReader inputStreamReader) {
 
         super(inputStreamReader);
         this.inputStreamReader = inputStreamReader;
@@ -43,21 +42,6 @@ public class EditableBufferedReader extends BufferedReader {
 
     @Override
     public int read() throws IOException{
-        /* Primera versió:
-        int key;
-         if((key = super.read()) == 27 && super.read() == '[') {     // filtra les tecles que volem que començen amb ESC (27)         
-            switch(key = super.read()) {
-                case END:    
-                case INS: super.read(); //elimina el ~
-                case RIGHT: 
-                case LEFT:  
-                case DEL:   
-                case HOME: return -key;       
-            }
-         }
-         return key;
-         */
-
         String str = "";
         try{
             while(!this.ready()){}
@@ -112,4 +96,17 @@ public class EditableBufferedReader extends BufferedReader {
             unsetRaw();
         }
     }
-}    
+      
+    
+    public static void main(String[] args){
+        
+        BufferedReader bufRead = new ExampleBufferedReader(new InputStreamReader(System.in));
+        
+
+        try {         
+            System.out.print(bufRead.readLine());
+        } catch (IOException ioe){
+            ioe.printStackTrace();
+        }    
+    }    
+}
