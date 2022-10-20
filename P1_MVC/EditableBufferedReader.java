@@ -20,6 +20,7 @@ public class EditableBufferedReader extends BufferedReader {
 
         super(inputStreamReader);
         this.inputStreamReader = inputStreamReader;
+
     } 
      
     public static void setRaw() { // put terminal in raw mode
@@ -46,24 +47,25 @@ public class EditableBufferedReader extends BufferedReader {
             str += (char)super.read();
         }
         switch(str) {
-            case "\033[2~":                                         //insert
-            case "\033[3~":                                         //delete
-            case "\033[C":                                          //right
-            case "\033[D":                                          //left
-            case "\033[F":                                          //end
-            case "\033[H":  return -str.charAt(2);            //home
+            case "\033[2~":
+            case "\033[3~": 
+            case "\033[C": 
+            case "\033[D":  
+            case "\033[F":   
+            case "\033[H":  return -str.charAt(2);
             default:        return  str.charAt(str.length() - 1);
         }
     }
 
     @Override
-    public String readLine() throws IOException {
+    public String readLine() throws IOException{
         try{
             setRaw();
             Line line = new Line();
             int key;
-            while ((key = this.read()) != '\r') {
-                switch(key) {
+            while ((key = this.read()) != '\r'){
+                switch(key)
+                {
                     case -RIGHT: line.right();
                     break;
                     case -LEFT: line.left();
@@ -82,7 +84,7 @@ public class EditableBufferedReader extends BufferedReader {
                 }
             }
             return line.toString();
-        } catch (IOException e) {
+        } catch (IOException e){
             throw e;
         } finally {
             unsetRaw();
