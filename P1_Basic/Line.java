@@ -38,8 +38,8 @@ public class Line {
     }
   }
 
-  public void right(){
-    if (position < line.size()){
+  public void right() {
+    if (position < line.size()) {
       position++;
       System.out.print("\033[C");
     } 

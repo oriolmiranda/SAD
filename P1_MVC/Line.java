@@ -16,7 +16,7 @@ public class Line extends Observable {
     this.addObserver(console);
   }
 
-  public void addCharacter(char character){
+  public void addCharacter(char character) {
     if (!insert || position >= line.size()) {
       line.add(position, character);      
       System.out.print("\033[@");
@@ -29,41 +29,40 @@ public class Line extends Observable {
     this.notifyObservers(character);     
   }
 
-  public void home(){
-    while(position>0){
+  public void home() {
+    while(position>0) {
       this.left();
     }     
   }
 
-  public void end(){
-    while(position<line.size()){
+  public void end() {
+    while(position<line.size()) {
       this.right();
     }
   }
 
-  public void right(){
-    if (position < line.size()){
+  public void right() {
+    if (position < line.size()) {
       position++;
       this.setChanged();
       this.notifyObservers("\033[C");
     } 
   }
 
-  public void left(){
-    if (position > 0){
+  public void left() {
+    if (position > 0) {
       position--;
       this.setChanged();
       this.notifyObservers("\033[D");
     } 
   }
 
-  public void insert(){    
+  public void insert() {    
     insert = !insert;
   }
 
-  public void delete(){
-    if(position < line.size())
-    {
+  public void delete() {
+    if(position < line.size()) {
       line.remove(position);
       this.setChanged();
       this.notifyObservers("\033[P");
@@ -71,8 +70,7 @@ public class Line extends Observable {
   }
 
   public void backSpace(){
-    if(position > 0)
-    {
+    if(position > 0) {
       position--;      
       line.remove(position);
       this.left();
@@ -81,7 +79,7 @@ public class Line extends Observable {
   }
 
   @Override
-  public String toString(){
+  public String toString() {
     StringBuilder str = new StringBuilder();
     for (char s : line) 
       str = str.append(s);

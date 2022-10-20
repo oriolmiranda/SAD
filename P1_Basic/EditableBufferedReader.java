@@ -55,6 +55,7 @@ public class EditableBufferedReader extends BufferedReader {
          return key;
          */
 
+        /* Segona versió
         String str = "";
         try{
             while(!this.ready()){}
@@ -74,6 +75,26 @@ public class EditableBufferedReader extends BufferedReader {
         }catch (IOException e){
             throw e;
         }
+        */
+        StringBuilder str = new StringBuilder();
+        try{
+            while(!this.ready()){}
+            while(this.ready())
+            {
+                str.append((char)super.read());
+            }
+            switch(str.toString()) {
+                case "\033[2~":
+                case "\033[3~": 
+                case "\033[C": 
+                case "\033[D":  
+                case "\033[F":   
+                case "\033[H":  return -str.charAt(2);
+                default:        return  str.charAt(str.length() - 1);
+            }
+        }catch (IOException e){
+            throw e;
+        }
     }
 
     @Override
@@ -82,9 +103,8 @@ public class EditableBufferedReader extends BufferedReader {
             setRaw();
             Line line = new Line();
             int key;
-            while ((key = this.read()) != '\r'){
-                switch(key)
-                {
+            while ((key = this.read()) != '\r'){        //llegeix fins retorn de carro
+                switch(key) {
                     case -RIGHT: line.right();
                     break;
                     case -LEFT: line.left();
@@ -99,11 +119,11 @@ public class EditableBufferedReader extends BufferedReader {
                     break;
                     case BKSP: line.backSpace();
                     break;
-                    default: line.addCharacter((char)key);
+                    default: line.addCharacter((char) key);
                 }
             }
             return line.toString();
-        } catch (IOException e){
+        } catch (IOException e) {
             throw e;
         } finally {
             unsetRaw();
