@@ -1,4 +1,3 @@
-package P1_MVC;
 import java.io.*;
 
 class TestReadLine {
