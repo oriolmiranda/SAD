@@ -2,8 +2,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import P1_MVC.Line;
 
-public class EditableBufferedReader extends BufferedReader {
+
+public class ExampleBufferedReader extends BufferedReader {
     
     //Constants
     private static final int RIGHT = 'C';
@@ -13,10 +15,10 @@ public class EditableBufferedReader extends BufferedReader {
     private static final int DEL = '3';
     private static final int INS = '2';
     private static final int BKSP = 127;
- 
+
     InputStreamReader inputStreamReader;
     
-    public EditableBufferedReader(InputStreamReader inputStreamReader) {
+    public ExampleBufferedReader(InputStreamReader inputStreamReader) {
 
         super(inputStreamReader);
         this.inputStreamReader = inputStreamReader;
@@ -42,18 +44,23 @@ public class EditableBufferedReader extends BufferedReader {
     @Override
     public int read() throws IOException{
         String str = "";
-        while(!this.ready()){ }
-        while(this.ready()) {
-            str += (char)super.read();
-        }
-        switch(str) {
-            case "\033[2~":
-            case "\033[3~": 
-            case "\033[C": 
-            case "\033[D":  
-            case "\033[F":   
-            case "\033[H":  return -str.charAt(2);
-            default:        return  str.charAt(str.length() - 1);
+        try{
+            while(!this.ready()){}
+            while(this.ready())
+            {
+                str += (char)super.read();
+            }
+            switch(str) {
+                case "\033[2~":
+                case "\033[3~": 
+                case "\033[C": 
+                case "\033[D":  
+                case "\033[F":   
+                case "\033[H":  return -str.charAt(2);
+                default:        return  str.charAt(str.length() - 1);
+            }
+        }catch (IOException e){
+            throw e;
         }
     }
 
@@ -90,4 +97,17 @@ public class EditableBufferedReader extends BufferedReader {
             unsetRaw();
         }
     }
-}    
+      
+    
+    public static void main(String[] args){
+        
+        BufferedReader bufRead = new ExampleBufferedReader(new InputStreamReader(System.in));
+        
+
+        try {         
+            System.out.print(bufRead.readLine());
+        } catch (IOException ioe){
+            ioe.printStackTrace();
+        }    
+    }    
+}
