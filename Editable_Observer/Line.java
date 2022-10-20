@@ -1,54 +1,67 @@
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class Line {
+public class Line extends Observable {
   
   boolean insert;
   ArrayList<Character> line;
   int position;
+  Console view;
 
   public Line (){
     line = new ArrayList<>();
     insert = false;
     position = 0;
+    view = new Console();
+    this.addObserver(view);
   }
 
   public void addCharacter(char character){
     if (!insert || position >= line.size()) {
       line.add(position, character);      
-      System.out.print("\033[@");
+      System.out.print("\033[@"); //no se si cal
     }
     else {
       line.set(position, character);
     }
-    System.out.print(character);    
     position++;
+    this.setChanged();
+    this.notifyObservers(character);    //System.out.print(character);    
   }
 
   public void home(){
-    if(position > 0){
+    /*if(position > 0){
       System.out.print("\033[" + position + "D");
       position = 0;
-    }      
+    }*/
+    while(position>0){
+      this.left();
+    }     
   }
 
   public void end(){
-    if(position < line.size()){
+    /*if(position < line.size()){
       System.out.print("\033[" + (line.size() - position) + "C");
       position = line.size();
+    }*/
+    while(position<line.size()){
+      this.right();
     }
   }
 
   public void right(){
     if (position < line.size()){
       position++;
-      System.out.print("\033[C");
+      this.setChanged();
+      this.notifyObservers("\033[C");   //System.out.print("\033[C");
     } 
   }
 
   public void left(){
     if (position > 0){
       position--;
-      System.out.print("\033[D");
+      this.setChanged();
+      this.notifyObservers("\033[D");   //System.out.print("\033[D");
     } 
   }
 
@@ -60,7 +73,8 @@ public class Line {
     if(position < line.size())
     {
       line.remove(position);
-      System.out.print("\033[P");
+      this.setChanged();
+      this.notifyObservers("\033[P");     //System.out.print("\033[P");
     }
   }
 
@@ -69,16 +83,18 @@ public class Line {
     {
       position--;      
       line.remove(position); 
-      System.out.print("\033[D");              
-      System.out.print("\033[P");
+      /*System.out.print("\033[D");              
+      System.out.print("\033[P");*/
+      this.left();
+      this.delete();
     }    
   }
 
   @Override
   public String toString(){
-    String str = "";
+    StringBuilder str = new StringBuilder();
     for (char s : line) 
-      str += s;
-    return str;
+      str = str.append(s);
+    return str.toString();
   }
 }
