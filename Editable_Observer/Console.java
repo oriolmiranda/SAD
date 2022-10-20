@@ -1,5 +1,5 @@
-import java.util.Observable;
 import java.util.Observer;
+import java.util.Observable;
 
 public class Console implements Observer {
 
