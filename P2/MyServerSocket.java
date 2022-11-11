@@ -4,7 +4,6 @@ import java.net.ServerSocket;
 public class MyServerSocket extends ServerSocket {
 
     MySocket mySocket;
-
     
     public MyServerSocket(int port) throws IOException {
 
