@@ -1,4 +1,4 @@
-#Joc Enfonsar la flota
+# Joc Enfonsar la flota
 
 Fet per [Jacob](https://github.com/jsandi99) i [Oriol](https://github.com/oriolmiranda)
 
