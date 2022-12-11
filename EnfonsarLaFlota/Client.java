@@ -34,7 +34,7 @@ public class Client {
     }).start();
   }
 
-  public static void initializeButtons() {
+  public static void initializeButtons() {    //Crea els actionListeners per a cada boto de la graella
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < 10; j++) {
         final int fila = i;
@@ -51,6 +51,7 @@ public class Client {
                   if (fiPartida()) {
                     System.out.println("Has Guanyat!");
                     bloquejarJugador(true);
+                    mySocket.printNum(FINALPARTIDA);
                     jocFrame.getFooterPanel().getTextArea().setText("Has guanyat!");
                     jocFrame.getFooterPanel().getTextArea().setBackground(Color.GREEN);
                     jocFrame.getFooterPanel().setBackground(Color.GREEN);
@@ -144,21 +145,21 @@ public class Client {
       fillNext(x + dx, y + dy, dx, dy);
 
       if (x > 0 && y > 0)
-        jocFrame.getTaulell().getCasella(x - 1, y - 1).setGirada(true);
+        jocFrame.getTaulell().getCasella(x - 1, y - 1).setGiradaNoMusic(true);
       if (y > 0)
-        jocFrame.getTaulell().getCasella(x, y - 1).setGirada(true);
+        jocFrame.getTaulell().getCasella(x, y - 1).setGiradaNoMusic(true);
       if (x < 9 && y > 0)
-        jocFrame.getTaulell().getCasella(x + 1, y - 1).setGirada(true);
+        jocFrame.getTaulell().getCasella(x + 1, y - 1).setGiradaNoMusic(true);
       if (x > 0)
-        jocFrame.getTaulell().getCasella(x - 1, y).setGirada(true);
+        jocFrame.getTaulell().getCasella(x - 1, y).setGiradaNoMusic(true);
       if (x < 9)
-        jocFrame.getTaulell().getCasella(x + 1, y).setGirada(true);
+        jocFrame.getTaulell().getCasella(x + 1, y).setGiradaNoMusic(true);
       if (x > 0 && y < 9)
-        jocFrame.getTaulell().getCasella(x - 1, y + 1).setGirada(true);
+        jocFrame.getTaulell().getCasella(x - 1, y + 1).setGiradaNoMusic(true);
       if (y < 9)
-        jocFrame.getTaulell().getCasella(x, y + 1).setGirada(true);
+        jocFrame.getTaulell().getCasella(x, y + 1).setGiradaNoMusic(true);
       if (x < 9 && y < 9)
-        jocFrame.getTaulell().getCasella(x + 1, y + 1).setGirada(true);
+        jocFrame.getTaulell().getCasella(x + 1, y + 1).setGiradaNoMusic(true);
     }
   }
 }

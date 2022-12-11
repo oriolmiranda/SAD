@@ -6,7 +6,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Server implements Runnable {
 
-  public static Map<String, MySocket> clientsMap = new HashMap(); // diccionari de parells (nick,socket)
+  public static Map<String, MySocket> clientsMap = new HashMap<String,MySocket>(); // diccionari de parells (nick,socket)
   private static final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
   private static final Lock r = rwl.readLock(); // lock de lectura
   private static final Lock w = rwl.writeLock(); // lock d'escriptura
@@ -22,25 +22,28 @@ public class Server implements Runnable {
 
   public static void main(String[] args) {
     MyServerSocket server = null;
-    try {
-      server = new MyServerSocket(5000);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
     MySocket clientSocket;
     String name;
 
-    while (true) {
-      clientSocket = server.accept();
+    try {
+      server = new MyServerSocket(5000);
 
-      if(clientsMap.isEmpty()){
-        name = "Jugador1";
-      } else {
-        name = "Jugador2";
+      while (true) {
+        clientSocket = server.accept();
+  
+        if(clientsMap.isEmpty()){
+          name = "Jugador1";
+        } else {
+          name = "Jugador2";
+        }
+        putClient(name, clientSocket);
+        new Thread(new Server(name, clientSocket)).start(); 
+        System.out.println(name + " s'ha unit");
       }
-      putClient(name, clientSocket);
-      new Thread(new Server(name, clientSocket)).start(); 
-      System.out.println(name + " s'ha unit");
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally{
+      server.close();
     }
   }
 
