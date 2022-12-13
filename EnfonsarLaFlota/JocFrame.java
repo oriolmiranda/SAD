@@ -16,7 +16,7 @@ public class JocFrame extends JFrame{
     this.setPreferredSize(new Dimension(700,700));
     this.setLayout(new BorderLayout());
 
-    ImageIcon image = new ImageIcon("vaixell.png");
+    ImageIcon image = new ImageIcon("imatges/vaixell.png");
     this.setIconImage(image.getImage());
 
     header = new HeaderPanel();

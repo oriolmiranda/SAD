@@ -1,7 +1,15 @@
 import java.io.IOException;
+
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.sound.sampled.*;
+import java.io.File;
+import java.net.MalformedURLException;
 
 public class Client {
 
@@ -29,12 +37,14 @@ public class Client {
           jocFrame.getFooterPanel().getTextArea().setText("Has perdut!");
           jocFrame.getFooterPanel().getTextArea().setBackground(Color.RED);
           jocFrame.getFooterPanel().setBackground(Color.RED);
+          ImageIcon image = new ImageIcon("imatges/game-over.png");
+          JOptionPane.showMessageDialog(jocFrame, null, "Derrota", 1, image);
         }
       }
     }).start();
   }
 
-  public static void initializeButtons() {    //Crea els actionListeners per a cada boto de la graella
+  public static void initializeButtons() { // Crea els actionListeners per a cada boto de la graella
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < 10; j++) {
         final int fila = i;
@@ -55,13 +65,22 @@ public class Client {
                     jocFrame.getFooterPanel().getTextArea().setText("Has guanyat!");
                     jocFrame.getFooterPanel().getTextArea().setBackground(Color.GREEN);
                     jocFrame.getFooterPanel().setBackground(Color.GREEN);
-
+                    ImageIcon image = new ImageIcon("imatges/winner.png");
+                    JOptionPane.showMessageDialog(jocFrame, null, "Victoria", 1, image);
                   } else {
-                    System.out.println("Has tocat un vaixell, et toca un altre cop");
+                    try {
+                      playSound("sons/bip.wav");
+                    } catch (Exception e) {
+                      e.printStackTrace();
+                    }
                     ifFullBarco(fila, columna);
                   }
                 } else {
-                  System.out.println("Aigua!!! , es el torn del teu rival");
+                  try {
+                    playSound("sons/water1.wav");
+                  } catch (Exception e) {
+                    e.printStackTrace();
+                  }
                   bloquejarJugador(true);
                   mySocket.printNum(TORNRIVAL);
                 }
@@ -145,21 +164,31 @@ public class Client {
       fillNext(x + dx, y + dy, dx, dy);
 
       if (x > 0 && y > 0)
-        jocFrame.getTaulell().getCasella(x - 1, y - 1).setGiradaNoMusic(true);
+        jocFrame.getTaulell().getCasella(x - 1, y - 1).setGirada(true);
       if (y > 0)
-        jocFrame.getTaulell().getCasella(x, y - 1).setGiradaNoMusic(true);
+        jocFrame.getTaulell().getCasella(x, y - 1).setGirada(true);
       if (x < 9 && y > 0)
-        jocFrame.getTaulell().getCasella(x + 1, y - 1).setGiradaNoMusic(true);
+        jocFrame.getTaulell().getCasella(x + 1, y - 1).setGirada(true);
       if (x > 0)
-        jocFrame.getTaulell().getCasella(x - 1, y).setGiradaNoMusic(true);
+        jocFrame.getTaulell().getCasella(x - 1, y).setGirada(true);
       if (x < 9)
-        jocFrame.getTaulell().getCasella(x + 1, y).setGiradaNoMusic(true);
+        jocFrame.getTaulell().getCasella(x + 1, y).setGirada(true);
       if (x > 0 && y < 9)
-        jocFrame.getTaulell().getCasella(x - 1, y + 1).setGiradaNoMusic(true);
+        jocFrame.getTaulell().getCasella(x - 1, y + 1).setGirada(true);
       if (y < 9)
-        jocFrame.getTaulell().getCasella(x, y + 1).setGiradaNoMusic(true);
+        jocFrame.getTaulell().getCasella(x, y + 1).setGirada(true);
       if (x < 9 && y < 9)
-        jocFrame.getTaulell().getCasella(x + 1, y + 1).setGiradaNoMusic(true);
+        jocFrame.getTaulell().getCasella(x + 1, y + 1).setGirada(true);
     }
   }
+
+  public static void playSound(String fileName)
+      throws MalformedURLException, LineUnavailableException, UnsupportedAudioFileException, IOException {
+    File url = new File(fileName);
+    Clip clip = AudioSystem.getClip();
+    AudioInputStream ais = AudioSystem.getAudioInputStream(url);
+    clip.open(ais);
+    clip.start();
+  }
+
 }
