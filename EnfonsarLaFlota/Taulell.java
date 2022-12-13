@@ -8,7 +8,6 @@ public class Taulell extends JPanel {
   private Casella[][] tablero;
 
   public Taulell() {
-
     this.setLayout(new GridLayout(10, 10, 5, 5));
     tablero = new Casella[10][10];
 
@@ -20,19 +19,13 @@ public class Taulell extends JPanel {
     }
   }
 
-  public Casella[][] getTablero() {
-    return tablero;
-  }
-
-  public Casella getCasella(int x, int y) {
-    return tablero[x][y];
-  }
+  public Casella[][] getTablero() {return tablero;}
+  public Casella getCasella(int x, int y) {return tablero[x][y];}
 
   public void distribution() {
     for (int i = 4; i > 0; i--) {
       for (int j = 5 - i; j > 0; j--) {
-        while (tryDistribution(i)) {
-        }
+        while (tryDistribution(i)) {}
       }
     }
   }
@@ -49,8 +42,8 @@ public class Taulell extends JPanel {
       y = r.nextInt(10 - size + 1);
     }
     for (int i = 0; i < size; i++) {
-      if (direction && checkSurroundings(x + i, y) ||
-          !direction && checkSurroundings(x, y + i))
+      if(direction && checkSurroundings(x + i, y) ||
+        !direction && checkSurroundings(x, y + i))
         return true;
     }
     for (int i = 0; i < size; i++) {

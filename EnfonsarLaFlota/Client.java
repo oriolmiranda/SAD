@@ -47,19 +47,15 @@ public class Client {
   public static void initializeButtons() { // Crea els actionListeners per a cada boto de la graella
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < 10; j++) {
-        final int fila = i;
-        final int columna = j;
+        final int fila = i, columna = j;
         jocFrame.getTaulell().getCasella(i, j).addActionListener(
             new ActionListener() {
               @Override
               public void actionPerformed(ActionEvent actionEvent) {
-
-                jocFrame.getTaulell().getCasella(fila, columna).setEnabled(false);
                 jocFrame.getTaulell().getCasella(fila, columna).setGirada(true);
 
-                if (tocatBarco(fila, columna)) {
+                if (jocFrame.getTaulell().getCasella(fila, columna).isBarco()) {
                   if (fiPartida()) {
-                    System.out.println("Has Guanyat!");
                     bloquejarJugador(true);
                     mySocket.printNum(FINALPARTIDA);
                     jocFrame.getFooterPanel().getTextArea().setText("Has guanyat!");
@@ -73,7 +69,7 @@ public class Client {
                     } catch (Exception e) {
                       e.printStackTrace();
                     }
-                    ifFullBarco(fila, columna);
+                    fillFullBarco(fila, columna);
                   }
                 } else {
                   try {
@@ -104,18 +100,10 @@ public class Client {
 
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < 10; j++) {
-        if (!taulell.getCasella(i, j).isGirada()) {
+        if (!taulell.getCasella(i, j).isGirada())
           taulell.getCasella(i, j).setEnabled(!bloqueo);
-        }
       }
     }
-  }
-
-  public static Boolean tocatBarco(int i, int j) { // Comproba si en aquella casella hi ha un vaixell
-    if (jocFrame.getTaulell().getCasella(i, j).isBarco()) {
-      return true;
-    }
-    return false;
   }
 
   public static Boolean fiPartida() { // Comproba si estan tots els vaixells tocats i enfonsats per si es final de
@@ -131,7 +119,7 @@ public class Client {
     return true;
   }
 
-  public static void ifFullBarco(int x, int y) {
+  public static void fillFullBarco(int x, int y) {
     if (doneNext(x + 1, y, 1, 0) ||
         doneNext(x - 1, y, -1, 0) ||
         doneNext(x, y + 1, 0, 1) ||
@@ -147,7 +135,6 @@ public class Client {
   public static boolean doneNext(int x, int y, int dx, int dy) {
     if (x < 0 || x > 9 || y < 0 || y > 9)
       return false;
-
     if (jocFrame.getTaulell().getCasella(x, y).isBarco() && !jocFrame.getTaulell().getCasella(x, y).isGirada())
       return true;
     else if (jocFrame.getTaulell().getCasella(x, y).isBarco())
