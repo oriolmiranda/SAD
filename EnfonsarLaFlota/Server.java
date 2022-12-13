@@ -6,13 +6,15 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Server implements Runnable {
 
-  public static Map<String, MySocket> clientsMap = new HashMap<String,MySocket>(); // diccionari de parells (nick,socket)
+  public static Map<String, MySocket> clientsMap = new HashMap<String, MySocket>(); // diccionari de parells
+                                                                                    // (nick,socket)
   private static final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
   private static final Lock r = rwl.readLock(); // lock de lectura
   private static final Lock w = rwl.writeLock(); // lock d'escriptura
 
   public MySocket mySocket;
-  //public static boolean validUser = false; // boolean per si nom d'usuari introduit es valid
+  // public static boolean validUser = false; // boolean per si nom d'usuari
+  // introduit es valid
   public String nick;
 
   public Server(String nickName, MySocket mySocket) {
@@ -30,19 +32,23 @@ public class Server implements Runnable {
 
       while (true) {
         clientSocket = server.accept();
-  
-        if(clientsMap.isEmpty()){
-          name = "Jugador1";
+        if (clientsMap.size() >= 2) {
+          System.out.println("La sala està plena, espera una estona i torna a intentar-ho");
+
         } else {
-          name = "Jugador2";
+          if (clientsMap.containsKey("Jugador1")) {
+            name = "Jugador2";
+          } else {
+            name = "Jugador1";
+          }
+          putClient(name, clientSocket);
+          new Thread(new Server(name, clientSocket)).start();
+          System.out.println(name + " s'ha unit");
         }
-        putClient(name, clientSocket);
-        new Thread(new Server(name, clientSocket)).start(); 
-        System.out.println(name + " s'ha unit");
       }
     } catch (IOException e) {
       e.printStackTrace();
-    } finally{
+    } finally {
       server.close();
     }
   }

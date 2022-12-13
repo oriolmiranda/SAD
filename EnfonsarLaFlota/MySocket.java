@@ -35,6 +35,7 @@ public class MySocket extends Socket {
     int num=0;
     try{
       String text = buffReader.readLine();
+      if(text == null || text == "") return num;
       num = Integer.parseInt(text);
     } catch (IOException e){
       e.printStackTrace();
