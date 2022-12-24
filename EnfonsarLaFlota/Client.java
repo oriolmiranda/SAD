@@ -88,14 +88,16 @@ public class Client {
 
   public static void bloquejarJugador(Boolean bloqueo) { // True per bloquejar jugador i false per desbloquejar jugador
     Taulell taulell = jocFrame.getTaulell();
+    Color green = Color.GREEN;
+    Color red = Color.RED;
     if (!bloqueo) {
       jocFrame.getFooterPanel().getTextArea().setText("Es el teu torn");
-      jocFrame.getFooterPanel().getTextArea().setBackground(Color.GREEN);
-      jocFrame.getFooterPanel().setBackground(Color.GREEN);
+      jocFrame.getFooterPanel().getTextArea().setBackground(green);
+      jocFrame.getFooterPanel().setBackground(green);
     } else {
       jocFrame.getFooterPanel().getTextArea().setText("No es el teu torn");
-      jocFrame.getFooterPanel().getTextArea().setBackground(Color.RED);
-      jocFrame.getFooterPanel().setBackground(Color.RED);
+      jocFrame.getFooterPanel().getTextArea().setBackground(red);
+      jocFrame.getFooterPanel().setBackground(red);
     }
 
     for (int i = 0; i < 10; i++) {
@@ -106,8 +108,7 @@ public class Client {
     }
   }
 
-  public static Boolean fiPartida() { // Comproba si estan tots els vaixells tocats i enfonsats per si es final de
-                                      // paartida
+  public static Boolean fiPartida() { // Comproba si estan tots els vaixells tocats i enfonsats per si es final de partida
     Taulell taulell = jocFrame.getTaulell();
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < 10; j++) {

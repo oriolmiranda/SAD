@@ -60,16 +60,16 @@ public class Server implements Runnable {
     removeClient(nick);
   }
 
-  public static boolean usedNickName(String name) {
-    boolean used;
-    r.lock();
-    try {
-      used = clientsMap.containsKey(name); // comprovem que el nick no estigui ja en el diccionari
-    } finally {
-      r.unlock();
-    }
-    return used;
-  }
+  // public static boolean usedNickName(String name) {
+  //   boolean used;
+  //   r.lock();
+  //   try {
+  //     used = clientsMap.containsKey(name); // comprovem que el nick no estigui ja en el diccionari
+  //   } finally {
+  //     r.unlock();
+  //   }
+  //   return used;
+  // }
 
   public static void putClient(String name, MySocket clientSocket) {
     w.lock();
